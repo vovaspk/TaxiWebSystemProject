@@ -71,6 +71,61 @@ public class UserDaoImpl implements UserDao {
 
     }
 
+    public boolean getUserByUserNameAndPassword(String userName, String password) {
+        System.out.println("UserDaoImpl:username:" + userName);
+        System.out.println("UserDaoImpl: password:" + password);
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+            System.out.println("before rs block");
+            conn = ConnectionFactory.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM users WHERE userName=? AND userPassword=?");
+            stmt.setString(1, userName);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
+            User user = null;
+            if(rs.next()) {
+                System.out.println("rs block");
+
+//                user.setUserId(rs.getLong("userId"));
+//                user.setUserName(rs.getString("userName"));
+//                user.setUserMail(rs.getString("userMail"));
+//                user.setUserPassword(rs.getString("userPassword"));
+
+                return true;
+            }
+
+        }catch (SQLException e){
+            e.getMessage();
+        }
+        finally {
+            if(rs !=null){
+                try{
+                    rs.close();
+                }catch (SQLException e){
+                    e.getMessage();
+                }
+            }
+            if(stmt != null){
+                try{
+                    stmt.close();
+                }catch (SQLException e){
+                    e.getMessage();
+                }
+            }
+            if(conn != null){
+                try{
+                    conn.close();
+                }catch (SQLException e){
+                    e.getMessage();
+                }
+            }
+        }
+        return false;
+
+    }
+
     public User getUserById(long id) {
         Connection conn = null;
         PreparedStatement stmt = null;

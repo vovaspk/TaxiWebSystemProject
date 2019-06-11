@@ -10,5 +10,6 @@ public interface UserDao {
     void save(User user);
     void update(User user);
     void delete(User user);
+    boolean getUserByUserNameAndPassword(String userName, String password);
 
 }

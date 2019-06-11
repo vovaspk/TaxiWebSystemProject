@@ -1,31 +1,29 @@
 <%--
   Created by IntelliJ IDEA.
   User: vovas
-  Date: 10.06.2019
-  Time: 15:48
+  Date: 11.06.2019
+  Time: 12:43
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login</title>
+    <title>Registration</title>
 </head>
 <body>
+
 <form action="${pageContext.request.contextPath}/login" method="post">
-    Username:<br>
+    User name:<br>
     <input type="text" name="userName" >
     <br>
-    <br>
+    Mail:<br>
+    <input type="text" name="mail" >
+    <br><br>
     Password:<br>
     <input type="text" name="password" >
     <br><br>
-    <input type="submit" value="Login">
+    <input type="submit" value="Submit">
+
 </form>
-<form action="${pageContext.request.contextPath}/registration" method="get">
-    <input type="submit" value="registration">
-</form>
-
-
-
 </body>
 </html>
