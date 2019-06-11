@@ -1,0 +1,4 @@
+# Don't track content of these folders
+META-INF/
+TaxiWebSystem.iml
+target/
