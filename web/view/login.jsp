@@ -21,8 +21,8 @@
     <br><br>
     <input type="submit" value="Login">
 </form>
-<form action="${pageContext.request.contextPath}/registration" method="get">
-    <input type="submit" value="registration">
+<form action="${pageContext.request.contextPath}/view/registration.jsp" method="post">
+    <input type="submit" value="registration" >
 </form>
 
 

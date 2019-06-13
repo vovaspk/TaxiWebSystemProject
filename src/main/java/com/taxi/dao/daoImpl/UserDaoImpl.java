@@ -3,6 +3,7 @@ package com.taxi.dao.daoImpl;
 import com.taxi.DBUtil.ConnectionFactory;
 import com.taxi.dao.UserDao;
 import com.taxi.domain.User;
+import com.taxi.passwordHashingService.MD5;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,7 +61,39 @@ public class UserDaoImpl implements UserDao {
     }
 
     public void save(User user) {
+        String userName = user.getUserName();
+        String email = user.getUserMail();
+        //String password = MD5.getMD5(user.getUserPassword());
+        String password = user.getUserPassword();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO users (userName, userMail, userPassword) VALUES (?,?,?)");
+            stmt.setString(1, userName);
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.executeUpdate();
+            System.out.println("user saved");
+        }catch (SQLException e){
 
+        }
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            }
+        }
     }
 
     public void update(User user) {

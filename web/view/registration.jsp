@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form action="${pageContext.request.contextPath}/login" method="post">
+<form action="${pageContext.request.contextPath}/registration" method="post">
     User name:<br>
     <input type="text" name="userName" >
     <br>
