@@ -24,8 +24,15 @@ public class UserDaoImpl implements UserDao {
             conn = ConnectionFactory.getConnection();
             stmt = conn.prepareStatement("SELECT * FROM users");
             rs = stmt.executeQuery();
-            User user = null;
+            //User user = null;
             if(rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt(1));
+                user.setUserName(rs.getString(2));
+                user.setUserMail(rs.getString(3));
+                user.setUserPassword(rs.getString(4));
+                users.add(user);
+
                // users.add(processRow(rs));
 
             }
