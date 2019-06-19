@@ -37,6 +37,13 @@ Select type of car you want
 <%--    <c:forEach var="car" items="${carList}">--%>
 <%--        <option><c:out value="${car.class}"/></option>--%>
 <%--    </c:forEach>--%>
-<%--</select>--%>  <%-- MAYBE MAKE TABLE OF AVAILABLE CARS WITH ALL THEIR ATTRIBUTES--%>
+<%--</select>--%>  <%-- MAYBE MAKE TABLE OF AVAILABLE CARS WITH ALL THEIR ATTRIBUTES    -->   OR MAKE RADIO BUTTONS--%>
+
+<select name="carchoose">
+    <c:forEach var="taxi" items="${taxis}">
+        <option><c:out value="${taxi.carClass}"/></option>
+    </c:forEach>
+
+</select>
 </body>
 </html>
