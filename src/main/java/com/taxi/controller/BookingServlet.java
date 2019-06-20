@@ -40,6 +40,16 @@ public class BookingServlet extends HttpServlet {
         List<Taxi> taxis = taxiDao.getAllAvailableCars();
         req.setAttribute("taxis", taxis);
 
+        String home = req.getParameter("home");
+        String dest = req.getParameter("dest");
+        String car = req.getParameter("carchoose");
+        System.out.println(home);
+        System.out.println(dest);
+        System.out.println(car);
+        //working here
+        //get id's streets and sum(km) and price and maybe coef and time arrival
+        //book a taxi and after some time of booking set isFree taxi = true;
+
         RequestDispatcher rd = req.getRequestDispatcher("/view/bookingtaxi.jsp");
         rd.forward(req, resp);
     }

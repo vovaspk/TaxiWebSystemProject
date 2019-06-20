@@ -12,6 +12,9 @@
     <title>Booking</title>
 </head>
 <body>
+<form method="post" action="${pageContext.request.contextPath}/booking">
+
+
 Select where to pick up you
 <select name="home">
 
@@ -45,5 +48,7 @@ Select type of car you want
     </c:forEach>
 
 </select>
+    <input type="submit" value="submit">
+</form>
 </body>
 </html>

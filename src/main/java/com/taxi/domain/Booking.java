@@ -2,6 +2,7 @@ package com.taxi.domain;
 
 public class Booking {
     private int id;
+    private User user;
     private Street home;
     private Street dest;
     private Taxi taxi;
@@ -11,12 +12,21 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Street home, Street dest, Taxi taxi, UserAction action, double price) {
+    public Booking(User user, Street home, Street dest, Taxi taxi, UserAction action, double price) {
+        this.user = user;
         this.home = home;
         this.dest = dest;
         this.taxi = taxi;
         this.action = action;
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
