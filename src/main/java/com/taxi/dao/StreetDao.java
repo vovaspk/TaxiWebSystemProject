@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface StreetDao {
     Street getById(int id);
+    int getStreetIdByName(String name);
     List<Street> getAllStreets();
     void save (Street street);
     void update (Street street);

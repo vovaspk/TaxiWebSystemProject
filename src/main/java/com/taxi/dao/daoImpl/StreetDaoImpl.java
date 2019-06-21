@@ -60,6 +60,49 @@ public class StreetDaoImpl implements StreetDao {
         return null;
     }
 
+    public int getStreetIdByName(String name) {
+        int id = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM streets WHERE streetName=?");
+            stmt.setString(1, name);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            return id;
+        } catch (SQLException e) {
+            e.getMessage();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            }
+        }
+        return id;
+    }
+
     public List<Street> getAllStreets() {
         List<Street> streets = new ArrayList<Street>();
         Connection conn = null;

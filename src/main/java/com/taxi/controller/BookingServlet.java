@@ -2,8 +2,10 @@ package com.taxi.controller;
 
 import com.taxi.dao.StreetDao;
 import com.taxi.dao.TaxiDao;
+import com.taxi.dao.WayDao;
 import com.taxi.dao.daoImpl.StreetDaoImpl;
 import com.taxi.dao.daoImpl.TaxiDaoImpl;
+import com.taxi.dao.daoImpl.WayDaoImpl;
 import com.taxi.domain.Street;
 import com.taxi.domain.Taxi;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class BookingServlet extends HttpServlet {
     StreetDao streetDao = new StreetDaoImpl();
     TaxiDao taxiDao = new TaxiDaoImpl();
+    WayDao wayDao = new WayDaoImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Street> streets = streetDao.getAllStreets();
@@ -43,9 +46,20 @@ public class BookingServlet extends HttpServlet {
         String home = req.getParameter("home");
         String dest = req.getParameter("dest");
         String car = req.getParameter("carchoose");
+        Street homeStreet = new Street(home);
+        homeStreet.setId(streetDao.getStreetIdByName(home));
+        Street destStreet = new Street(dest);
+        destStreet.setId(streetDao.getStreetIdByName(dest));
         System.out.println(home);
         System.out.println(dest);
         System.out.println(car);
+        System.out.println("home street id = " + homeStreet.toString());
+        System.out.println("dest street id = " + destStreet.toString());
+        System.out.println(wayDao.getSumKm(homeStreet,destStreet));
+        //TODO (sum of km is calculated right,
+        // need to calculate the price and wait
+        // and book booking
+        // and set taxi to not free and after some time to free
         //working here
         //get id's streets and sum(km) and price and maybe coef and time arrival
         //book a taxi and after some time of booking set isFree taxi = true;
