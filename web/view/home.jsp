@@ -16,6 +16,7 @@ Hello ${param.userName}
 <a href="${pageContext.request.contextPath}/booking">Book a taxi</a>
 <a href="${pageContext.request.contextPath}/actions">Check my actions</a>
 <a href="${pageContext.request.contextPath}/cars">types of cars</a>
+<a href="${pageContext.request.contextPath}/login">Exit</a>
 
 </body>
 </html>

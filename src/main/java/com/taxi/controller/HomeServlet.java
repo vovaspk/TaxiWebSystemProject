@@ -22,12 +22,13 @@ public class HomeServlet extends HttpServlet {
     TaxiDao taxiDao = new TaxiDaoImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        RequestDispatcher rd = req.getRequestDispatcher("/view/home.jsp");
-//        rd.forward(req, resp);
+        RequestDispatcher rd = req.getRequestDispatcher("/view/home.jsp");
+        rd.forward(req, resp);
+        // comment top 2 strings
 
         String userName = req.getParameter("userName");
-        System.out.println("HomeServlet: doGet" + userName);
         req.setAttribute("userName", userName);
+        System.out.println("HomeServlet: doGet" + userName);
 
         List<Street> streets = streetDao.getAllStreets();
         req.setAttribute("streets", streets);
@@ -46,5 +47,7 @@ public class HomeServlet extends HttpServlet {
         System.out.println("HomeServlet: doPost " + userName);
         String password = req.getParameter("password");
         System.out.println("HomeServlet: doPost " + password);
+        //try this
+        req.setAttribute("userName", userName);
     }
 }

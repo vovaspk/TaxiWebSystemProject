@@ -1,4 +1,4 @@
 package com.taxi.exceptions;
 
-public class Exception400 {
+public class Exception404 {
 }

@@ -11,5 +11,6 @@ public interface UserDao {
     void update(User user);
     void delete(User user);
     boolean getUserByUserNameAndPassword(String userName, String password);
+    int getIdByUserName(String name);
 
 }

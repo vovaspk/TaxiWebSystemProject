@@ -60,4 +60,7 @@ public class WayDaoImpl implements WayDao {
 
         return 0;
     }
+
+
+
 }

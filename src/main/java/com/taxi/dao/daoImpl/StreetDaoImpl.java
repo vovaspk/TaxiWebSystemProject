@@ -20,17 +20,17 @@ public class StreetDaoImpl implements StreetDao {
         try {
             conn = ConnectionFactory.getConnection();
             stmt = conn.prepareStatement("SELECT * FROM streets WHERE id=?");
-            rs = stmt.executeQuery();
             stmt.setInt(1, id);
-            Street street = null;
+            rs = stmt.executeQuery();
+            //Street street = null;
             if (rs.next()) {
-
+                Street street = new Street();
                 street.setId(rs.getInt(1));
                 street.setName(rs.getString(2));
 
-
+                return street;
             }
-            return street;
+            return null;
         } catch (SQLException e) {
             e.getMessage();
         } finally {

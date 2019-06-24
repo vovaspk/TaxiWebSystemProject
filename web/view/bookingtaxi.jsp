@@ -12,8 +12,12 @@
     <title>Booking</title>
 </head>
 <body>
-<form method="post" action="${pageContext.request.contextPath}/booking">
+${sessionScope.get("user")} page
+<a href="${pageContext.request.contextPath}/home">Back</a>
 
+
+<div>
+<form method="post" action="${pageContext.request.contextPath}/booking">
 
 Select where to pick up you
 <select name="home">
@@ -50,5 +54,6 @@ Select type of car you want
 </select>
     <input type="submit" value="submit">
 </form>
+</div>
 </body>
 </html>

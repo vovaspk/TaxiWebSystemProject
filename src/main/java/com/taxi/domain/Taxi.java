@@ -46,4 +46,14 @@ public class Taxi {
     public void setIs_free(boolean is_free) {
         this.is_free = is_free;
     }
+
+    @Override
+    public String toString() {
+        return "Taxi{" +
+                "id=" + id +
+                ", carClass='" + carClass + '\'' +
+                ", curr_pos=" + curr_pos +
+                ", is_free=" + is_free +
+                '}';
+    }
 }

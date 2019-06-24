@@ -13,7 +13,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    //ConnectionFactory dataSource;
+
+    public int getIdByUserName(String name) {
+        int id=0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+            conn = ConnectionFactory.getConnection();
+            stmt = conn.prepareStatement("SELECT userId FROM users WHERE userName = ?");
+            stmt.setString(1, name);
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                    id = rs.getInt("userId");
+
+            }
+            return id;
+        }catch (SQLException e){
+            e.getMessage();
+        }
+        finally {
+            if(rs !=null){
+                try{
+                    rs.close();
+                }catch (SQLException e){
+                    e.getMessage();
+                }
+            }
+            if(stmt != null){
+                try{
+                    stmt.close();
+                }catch (SQLException e){
+                    e.getMessage();
+                }
+            }
+            if(conn != null){
+                try{
+                    conn.close();
+                }catch (SQLException e){
+                    e.getMessage();
+                }
+            }
+        }
+
+
+        return id;
+    }
+//ConnectionFactory dataSource;
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
