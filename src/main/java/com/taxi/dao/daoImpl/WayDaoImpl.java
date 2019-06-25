@@ -14,6 +14,13 @@ public class WayDaoImpl implements WayDao {
         double  km = 0;
         int startId = home.getId();
         int destId = dest.getId()-1;
+        int temp = 0;
+        if(destId<startId){
+            temp = startId;
+            startId = destId;
+            destId = temp;
+        }
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

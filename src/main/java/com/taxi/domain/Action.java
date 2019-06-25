@@ -26,4 +26,12 @@ public class Action {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "id=" + id +
+                ", discount=" + discount +
+                '}';
+    }
 }

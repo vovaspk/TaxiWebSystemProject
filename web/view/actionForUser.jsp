@@ -11,6 +11,9 @@
     <title>Your Actions</title>
 </head>
 <body>
+        Your action account: ${action} ₴ available for discount
 
+        <p>If your wasted total sum is more than 20 then your discount will automaticly be used for new booking,
+            else you will just be collecting money for discount</p>
 </body>
 </html>

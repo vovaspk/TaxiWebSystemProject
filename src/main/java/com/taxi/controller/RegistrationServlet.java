@@ -1,8 +1,14 @@
 package com.taxi.controller;
 
+import com.taxi.dao.ActionDao;
+import com.taxi.dao.UserActionDao;
 import com.taxi.dao.UserDao;
+import com.taxi.dao.daoImpl.ActionDaoImpl;
+import com.taxi.dao.daoImpl.UserActionDaoImpl;
 import com.taxi.dao.daoImpl.UserDaoImpl;
+import com.taxi.domain.Action;
 import com.taxi.domain.User;
+import com.taxi.domain.UserAction;
 import com.taxi.passwordHashingService.MD5;
 
 import javax.servlet.RequestDispatcher;
@@ -16,6 +22,8 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
     UserDaoImpl userDao = new UserDaoImpl();
+    ActionDao actionDao = new ActionDaoImpl();
+    UserActionDao userActionDao = new UserActionDaoImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher rd = req.getRequestDispatcher("/view/registration.jsp");
@@ -36,7 +44,18 @@ public class RegistrationServlet extends HttpServlet {
         if(userDao.getUserByUserNameAndPassword(uname, hashedPassword)){
             System.out.println("User already exists!");
         }else{
+            //save user in db
             userDao.save(user);
+            //create action for him
+            Action action = new Action();
+            //save action
+            actionDao.addNewAction(action);
+            //create userAction
+            UserAction userAction = new UserAction();
+            //save userAction
+            userActionDao.createnewUserAction(action);
+
+
             RequestDispatcher rd = req.getRequestDispatcher("/view/login.jsp");
             rd.forward(req,resp );
             //resp.sendRedirect("/login");
