@@ -53,7 +53,8 @@ public class ActionDaoImpl implements ActionDao{
         try {
             conn = ConnectionFactory.getConnection();
             stmt = conn.prepareStatement("UPDATE action set discount=? where id=?");
-            stmt.setLong(1, user.getUserId());
+            stmt.setDouble(1, sum);
+            stmt.setLong(2, user.getUserId());
             rs = stmt.executeQuery();
 
 

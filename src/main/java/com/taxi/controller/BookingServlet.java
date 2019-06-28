@@ -89,7 +89,7 @@ public class BookingServlet extends HttpServlet {
 //        work here booking
 //        }
         //Get available car
-        Taxi taxi = taxiDao.getCarByCarType(car);
+       final Taxi taxi = taxiDao.getCarByCarType(car);
         //Get streets home and dest
         Street homeStreet = new Street(home);
         homeStreet.setId(streetDao.getStreetIdByName(home));
@@ -132,7 +132,7 @@ public class BookingServlet extends HttpServlet {
         System.out.println("PRICE AFTER DISCOUNT: " + price);
         System.out.println("Taxi Details: " + taxi.toString());
         //WAITING TIME
-        double waitTime = wayDao.getSumKm(homeStreet, taxi.getCurr_pos()) * timeFor1KM;
+        final double waitTime = wayDao.getSumKm(homeStreet, taxi.getCurr_pos()) * timeFor1KM;
         int time = (int) waitTime;
 
         req.setAttribute("waitingTime", time);
@@ -150,6 +150,19 @@ public class BookingServlet extends HttpServlet {
         taxi.setIs_free(false);
         taxiDao.setCarBusy(taxi);
         taxiDao.changeCurrentPos(taxi, destStreet);
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                synchronized (this) {
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    taxiDao.setCarFree(taxi);
+                }
+            }
+        });
+        t.start();
         //taxiDao.setCarFree(taxi);
 
 
