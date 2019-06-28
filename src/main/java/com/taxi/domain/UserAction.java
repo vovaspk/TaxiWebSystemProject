@@ -36,4 +36,13 @@ public class UserAction {
     public void setAction(Action action) {
         this.action = action;
     }
+
+    @Override
+    public String toString() {
+        return "UserAction{" +
+                "id=" + id +
+                ", user=" + user +
+                ", action=" + action +
+                '}';
+    }
 }

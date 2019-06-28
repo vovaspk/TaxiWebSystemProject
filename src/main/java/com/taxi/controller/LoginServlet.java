@@ -5,6 +5,7 @@ import com.taxi.dao.daoImpl.StreetDaoImpl;
 import com.taxi.dao.daoImpl.UserDaoImpl;
 import com.taxi.domain.Street;
 import com.taxi.passwordHashingService.MD5;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    Logger log = Logger.getLogger(LoginServlet.class);
    private UserDaoImpl userDaoImpl = new UserDaoImpl();
    private StreetDao streetDao = new StreetDaoImpl();
 
@@ -30,8 +32,16 @@ public class LoginServlet extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
+//        System.out.println("DEFAULT LOCALE USER IS: " + req.getLocale().getDisplayLanguage());
+//        System.out.println("DEFAULT LOCALE USER IS: " + req.getLocale().getCountry());
+//        ResourceBundle bundle = ResourceBundle.getBundle("locales", req.getLocale());
+//        resp.setLocale(bundle.getLocale());
+//        req.setAttribute("language", req.getLocale().getLanguage());
+
+
+
          RequestDispatcher rd = req.getRequestDispatcher("/view/login.jsp");
-        rd.forward(req, resp);
+         rd.forward(req, resp);
 
 
     }
@@ -52,7 +62,7 @@ public class LoginServlet extends HttpServlet {
         req.setAttribute("userName", userName);
         req.setAttribute("password", hashedPassword);
         if(userDaoImpl.getUserByUserNameAndPassword(userName, hashedPassword)){
-            System.out.println("Login success");
+            log.info("Login Success");
             HttpSession session = req.getSession();
             session.setAttribute("user", userName);
             List<Street> streets = streetDao.getAllStreets();
@@ -62,7 +72,8 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher rd = req.getRequestDispatcher("/home");
             rd.forward(req, resp);
         }else{
-            System.out.println("login wrong");
+            log.warn("Cannot login");
+
             resp.sendRedirect("/view/login.jsp");
         }
     }

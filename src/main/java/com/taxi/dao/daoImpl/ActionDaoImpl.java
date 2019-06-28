@@ -4,6 +4,7 @@ import com.taxi.DBUtil.ConnectionFactory;
 import com.taxi.dao.ActionDao;
 import com.taxi.domain.Action;
 import com.taxi.domain.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,32 +12,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ActionDaoImpl implements ActionDao{
+    Logger log = Logger.getLogger(ActionDaoImpl.class);
     public void addNewAction(Action action) {
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         try {
             conn = ConnectionFactory.getConnection();
             stmt = conn.prepareStatement("INSERT INTO action (discount) value ?");
             stmt.setDouble(1, 0);
             stmt.executeUpdate();
-
-
+            log.info("action added successfully");
 
         } catch (SQLException e) {
+            log.error("cannot add action: " + e.getMessage());
             e.getMessage();
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.getMessage();
-                }
-            }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
+                    log.error("stmt error: " + e.getMessage());
                     e.getMessage();
                 }
             }
@@ -44,6 +39,7 @@ public class ActionDaoImpl implements ActionDao{
                 try {
                     conn.close();
                 } catch (SQLException e) {
+                    log.error("connection error: " + e.getMessage());
                     e.getMessage();
                 }
             }
@@ -106,6 +102,7 @@ public class ActionDaoImpl implements ActionDao{
             rs = stmt.executeQuery();
             Action action = new Action();
             if (rs.next()) {
+                action.setId(rs.getInt(2));
                 action.setDiscount(rs.getInt(1));
             }
             return action;

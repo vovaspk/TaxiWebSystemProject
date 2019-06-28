@@ -4,6 +4,7 @@ import com.taxi.DBUtil.ConnectionFactory;
 import com.taxi.dao.UserDao;
 import com.taxi.domain.User;
 import com.taxi.passwordHashingService.MD5;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
+    Logger log = Logger.getLogger(UserDaoImpl.class);
 
     public int getIdByUserName(String name) {
         int id=0;
@@ -27,10 +29,11 @@ public class UserDaoImpl implements UserDao {
 
             if(rs.next()) {
                     id = rs.getInt("userId");
-
+                    log.info("get userId by username success");
             }
             return id;
         }catch (SQLException e){
+            log.error("cannot get userId by username: " + e.getMessage());
             e.getMessage();
         }
         finally {
@@ -38,6 +41,7 @@ public class UserDaoImpl implements UserDao {
                 try{
                     rs.close();
                 }catch (SQLException e){
+                    log.error("error geting user: " + e.getMessage());
                     e.getMessage();
                 }
             }
@@ -45,6 +49,7 @@ public class UserDaoImpl implements UserDao {
                 try{
                     stmt.close();
                 }catch (SQLException e){
+                    log.error("error geting user: " + e.getMessage());
                     e.getMessage();
                 }
             }
@@ -52,6 +57,7 @@ public class UserDaoImpl implements UserDao {
                 try{
                     conn.close();
                 }catch (SQLException e){
+                    log.error("connection error: " + e.getMessage());
                     e.getMessage();
                 }
             }
@@ -60,7 +66,7 @@ public class UserDaoImpl implements UserDao {
 
         return id;
     }
-//ConnectionFactory dataSource;
+
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
@@ -171,14 +177,11 @@ public class UserDaoImpl implements UserDao {
             stmt.setString(1, userName);
             stmt.setString(2, password);
             rs = stmt.executeQuery();
-            User user = null;
+
             if(rs.next()) {
                 System.out.println("rs block");
 
-//                user.setUserId(rs.getLong("userId"));
-//                user.setUserName(rs.getString("userName"));
-//                user.setUserMail(rs.getString("userMail"));
-//                user.setUserPassword(rs.getString("userPassword"));
+
 
                 return true;
             }
@@ -222,7 +225,8 @@ public class UserDaoImpl implements UserDao {
             stmt = conn.prepareStatement("SELECT userId, userName, userMail FROM users WHERE userId = ?");
             stmt.setLong(1, id);
             rs = stmt.executeQuery();
-            User user = null;
+            // here was user = null;
+            User user = new User();
             if(rs.next()) {
 
 

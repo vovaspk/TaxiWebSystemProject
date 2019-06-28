@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: vovas
@@ -7,6 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setBundle basename="locales" />
 <html>
 <head>
     <title>Booking</title>
@@ -55,5 +57,31 @@ Select type of car you want
     <input type="submit" value="submit">
 </form>
 </div>
+Waiting time:${waitingTime} min<br/>
+
+Your last bookings:
+<%--<c:forEach var="booking" items="${bookingList}">--%>
+<%--   <c:out value="${booking.home.name}"/>--%>
+<%--    <c:out value="${booking.dest.name}"/>--%>
+<%--    <c:out value="${booking.taxi.carClass}"/>--%>
+<%--</c:forEach>--%>
+
+
+
+<table border = "1" width = "100%">
+    <tr>
+        <th>from</th>
+        <th>where</th>
+        <th>Car type</th>
+    </tr>
+    <c:forEach var="booking" items="${bookingList}">
+        <tr>
+            <td><c:out value="${booking.home.name}"/></td/>
+            <td><c:out value="${booking.dest.name}"/></td>
+            <td><c:out value="${booking.taxi.carClass}"/></td>
+        </tr>
+    </c:forEach>
+</table>
+
 </body>
 </html>

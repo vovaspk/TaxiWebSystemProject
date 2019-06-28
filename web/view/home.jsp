@@ -7,12 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setBundle basename="locales" />
+
 <html>
 <head>
     <title>Home</title>
 </head>
 <body>
-Hello ${param.userName}
+<fmt:message key="hello"/>${param.userName}
 <a href="${pageContext.request.contextPath}/booking">Book a taxi</a>
 <a href="${pageContext.request.contextPath}/actions">Check my actions</a>
 <a href="${pageContext.request.contextPath}/cars">types of cars</a>

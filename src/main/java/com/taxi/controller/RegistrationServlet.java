@@ -10,6 +10,7 @@ import com.taxi.domain.Action;
 import com.taxi.domain.User;
 import com.taxi.domain.UserAction;
 import com.taxi.passwordHashingService.MD5;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
+    Logger log = Logger.getLogger(RegistrationServlet.class);
     UserDaoImpl userDao = new UserDaoImpl();
     ActionDao actionDao = new ActionDaoImpl();
     UserActionDao userActionDao = new UserActionDaoImpl();
@@ -42,7 +44,7 @@ public class RegistrationServlet extends HttpServlet {
         System.out.println("RegistrationServlet");
         User user = new User(uname, mail, hashedPassword);
         if(userDao.getUserByUserNameAndPassword(uname, hashedPassword)){
-            System.out.println("User already exists!");
+            log.warn("Cannot register, User already exists");
         }else{
             //save user in db
             userDao.save(user);
@@ -54,7 +56,7 @@ public class RegistrationServlet extends HttpServlet {
             UserAction userAction = new UserAction();
             //save userAction
             userActionDao.createnewUserAction(action);
-
+            log.info("User registred successfully");
 
             RequestDispatcher rd = req.getRequestDispatcher("/view/login.jsp");
             rd.forward(req,resp );

@@ -3,6 +3,7 @@ package com.taxi.controller;
 import com.taxi.dao.*;
 import com.taxi.dao.daoImpl.*;
 import com.taxi.domain.*;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,16 +14,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @WebServlet("/booking")
 public class BookingServlet extends HttpServlet {
-    UserDao userDao = new UserDaoImpl();
-    StreetDao streetDao = new StreetDaoImpl();
-    TaxiDao taxiDao = new TaxiDaoImpl();
-    WayDao wayDao = new WayDaoImpl();
-    BookingDao bookingDao = new BookingDaoImpl();
-    ActionDao actionDao = new ActionDaoImpl();
-    UserActionDao userActionDao = new UserActionDaoImpl();
+   Logger log = Logger.getLogger(BookingServlet.class);
+   private final double timeFor1KM = 2.5;
+   private final double priceFor1KM = 11;
+   private final double minDiscountValue= 20;
+   private UserDao userDao = new UserDaoImpl();
+   private StreetDao streetDao = new StreetDaoImpl();
+   private TaxiDao taxiDao = new TaxiDaoImpl();
+   private WayDao wayDao = new WayDaoImpl();
+   private BookingDao bookingDao = new BookingDaoImpl();
+   private ActionDao actionDao = new ActionDaoImpl();
+   private UserActionDao userActionDao = new UserActionDaoImpl();
+
 
 
     @Override
@@ -72,6 +79,8 @@ public class BookingServlet extends HttpServlet {
         user.setUserName(usName);
 
 
+
+
         String home = req.getParameter("home");
         String dest = req.getParameter("dest");
         //TODO if there are no available cars don't allow booking
@@ -81,7 +90,6 @@ public class BookingServlet extends HttpServlet {
 //        }
         //Get available car
         Taxi taxi = taxiDao.getCarByCarType(car);
-        taxi.toString();
         //Get streets home and dest
         Street homeStreet = new Street(home);
         homeStreet.setId(streetDao.getStreetIdByName(home));
@@ -104,15 +112,17 @@ public class BookingServlet extends HttpServlet {
         // and set taxi to not free and after some time to free
         // add Action for user
         Action action = actionDao.getUserAction(user);
+        //get right userAction
         UserAction userAction = userActionDao.getUserActionByAction(action);
+        System.out.println(userAction.toString());
         //get user discount
 
         //working here
         //get id's streets and sum(km) and price and maybe coef and time arrival
         //book a taxi and after some time of booking set isFree taxi = true;
         //Get price
-        double price = km * 11;
-        if(action.getDiscount() > 20){
+        double price = km * priceFor1KM;
+        if(action.getDiscount() > minDiscountValue){
             price = price- action.getDiscount();
         }else{
             actionDao.addSumToAction(user, action, price%10);
@@ -121,22 +131,30 @@ public class BookingServlet extends HttpServlet {
        // price = km * 11 - action.getDiscount();
         System.out.println("PRICE AFTER DISCOUNT: " + price);
         System.out.println("Taxi Details: " + taxi.toString());
+        //WAITING TIME
+        double waitTime = wayDao.getSumKm(homeStreet, taxi.getCurr_pos()) * timeFor1KM;
+        int time = (int) waitTime;
+
+        req.setAttribute("waitingTime", time);
+        System.out.println("Wait time for your car is: " + waitTime + " min");
+        //Booking handling
         Booking booking = new Booking();
         booking.setUser(user);
         booking.setHome(homeStreet);
         booking.setDest(destStreet);
         booking.setTaxi(taxi);
-        //TODO action handling
-        //TODO taxi free notFree handling
-        //TODO make thread for executing taxi free function
         booking.setAction(userAction);
         booking.setPrice(price);
-        //TODO calculate wait time
-       // bookingDao.book(booking);
-       // taxi.setIs_free(false);
-       // taxiDao.changeCurrentPos(taxi, destStreet);
-        //TODO set taxi to free after some time in thread
+        bookingDao.book(booking);
+        //set car is not free, change car position, in time set car to free
+        taxi.setIs_free(false);
+        taxiDao.setCarBusy(taxi);
+        taxiDao.changeCurrentPos(taxi, destStreet);
+        //taxiDao.setCarFree(taxi);
 
+
+        List<Booking> bookingList = bookingDao.getAllBookings(user);
+        req.setAttribute("bookingList", bookingList);
 
         RequestDispatcher rd = req.getRequestDispatcher("/view/bookingtaxi.jsp");
         rd.forward(req, resp);

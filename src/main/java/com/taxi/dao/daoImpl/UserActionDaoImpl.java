@@ -59,10 +59,11 @@ public class UserActionDaoImpl implements UserActionDao {
             User user;
             UserAction userAction = new UserAction();
             if (rs.next()) {
+                userAction.setId(rs.getInt(1));
                 user = userDao.getUserById(rs.getInt(3));
                 userAction.setAction(action);
                 userAction.setUser(user);
-                action.setDiscount(rs.getInt(1));
+               // action.setDiscount(rs.getInt(1));
             }
             return userAction;
         } catch (SQLException e) {
