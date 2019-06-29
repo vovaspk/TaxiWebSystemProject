@@ -13,13 +13,20 @@
 <html>
 <head>
     <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/css/component.css" />
 </head>
 <body>
-<fmt:message key="hello"/>${param.userName}
+
+ <fmt:message key="hello"/>${param.userName}
+<section class="color-1">
+    <nav class="cl-effect-1">
 <a href="${pageContext.request.contextPath}/booking">Book a taxi</a>
 <a href="${pageContext.request.contextPath}/actions">Check my actions</a>
 <a href="${pageContext.request.contextPath}/cars">types of cars</a>
 <a href="${pageContext.request.contextPath}/login">Exit</a>
-
+    </nav>
+</section>
 </body>
 </html>

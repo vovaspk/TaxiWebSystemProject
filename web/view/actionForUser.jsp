@@ -14,6 +14,7 @@
     <title>Your Actions</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/home">Back</a>
         Your action account: ${action} ₴ available for discount
 
         <p>If your wasted total sum is more than 20 then your discount will automaticly be used for new booking,

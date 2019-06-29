@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @WebServlet("/booking")
 public class BookingServlet extends HttpServlet {
@@ -134,7 +133,8 @@ public class BookingServlet extends HttpServlet {
         //WAITING TIME
         final double waitTime = wayDao.getSumKm(homeStreet, taxi.getCurr_pos()) * timeFor1KM;
         int time = (int) waitTime;
-
+        //waiting ride time
+        double rideTime = km*5;
         req.setAttribute("waitingTime", time);
         System.out.println("Wait time for your car is: " + waitTime + " min");
         //Booking handling

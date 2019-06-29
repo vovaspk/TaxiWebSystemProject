@@ -4,6 +4,7 @@ import com.taxi.dao.TaxiDao;
 import com.taxi.dao.daoImpl.TaxiDaoImpl;
 import com.taxi.domain.Taxi;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +21,9 @@ public class ShowCarsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Taxi> cars = taxiDao.getAllCars();
+        req.setAttribute("cars", cars);
+        RequestDispatcher rd = req.getRequestDispatcher("/view/showcars.jsp");
+        rd.forward(req, resp);
     }
 
     @Override

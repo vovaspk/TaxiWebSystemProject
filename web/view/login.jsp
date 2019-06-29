@@ -11,11 +11,14 @@
 <%--<fmt:setLocale value="<%=request.getLocale()%>"/>--%>
 
 <fmt:setBundle basename="locales" />
+
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/css/styles.css">
 </head>
 <body>
+<div class="login">
 <form action="${pageContext.request.contextPath}/login" method="post">
     <fmt:message key="loginName"/><br>
     <input type="text" name="userName" >
@@ -29,8 +32,8 @@
 <form action="${pageContext.request.contextPath}/view/registration.jsp" method="post">
     <input type="submit" value="registration" >
 </form>
-
-
+</div>
+<div class="shadow"></div>
 
 </body>
 </html>

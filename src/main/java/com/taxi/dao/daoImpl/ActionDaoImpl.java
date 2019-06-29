@@ -47,15 +47,16 @@ public class ActionDaoImpl implements ActionDao{
     }
 
     public void addSumToAction(User user, Action action, double sum) {
+        double lastSum = getUserAction(user).getDiscount();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             conn = ConnectionFactory.getConnection();
             stmt = conn.prepareStatement("UPDATE action set discount=? where id=?");
-            stmt.setDouble(1, sum);
+            stmt.setDouble(1, lastSum+sum);
             stmt.setLong(2, user.getUserId());
-            rs = stmt.executeQuery();
+            stmt.executeUpdate();
 
 
 

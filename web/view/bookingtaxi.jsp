@@ -12,13 +12,22 @@
 <html>
 <head>
     <title>Booking</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/css/util.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/css/main.css">
+
 </head>
 <body>
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100">
+
 ${sessionScope.get("user")} page
 <a href="${pageContext.request.contextPath}/home">Back</a>
 
 
-<div>
+
 <form method="post" action="${pageContext.request.contextPath}/booking">
 
 Select where to pick up you
@@ -56,7 +65,7 @@ Select type of car you want
 </select>
     <input type="submit" value="submit">
 </form>
-</div>
+
 Waiting time:${waitingTime} min<br/>
 
 Your last bookings:
@@ -67,13 +76,16 @@ Your last bookings:
 <%--</c:forEach>--%>
 
 
+<%--ТУТ БУЛИ ДІВИ--%>
 
 <table border = "1" width = "100%">
-    <tr>
-        <th>from</th>
-        <th>where</th>
-        <th>Car type</th>
+    <thead>
+    <tr class="table100-head">
+        <th class="column1">from</th>
+        <th class="column2">where</th>
+        <th class="column3">Car type</th>
     </tr>
+    </thead>
     <c:forEach var="booking" items="${bookingList}">
         <tr>
             <td><c:out value="${booking.home.name}"/></td/>
@@ -82,6 +94,10 @@ Your last bookings:
         </tr>
     </c:forEach>
 </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
